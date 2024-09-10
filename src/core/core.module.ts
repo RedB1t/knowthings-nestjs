@@ -8,6 +8,7 @@ import {join} from 'path';
 import databaseConfig from "./config/database.config";
 import {validationSchema} from "./config/schema.config";
 import appConfig from "@core/config/app.config";
+import {JwtModule} from "@nestjs/jwt";
 
 @Module({
   imports: [
@@ -35,6 +36,20 @@ import appConfig from "@core/config/app.config";
       useFactory: (configService: ConfigService) => ({
         playground: configService.get<boolean>('graphql.playground'),
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        formatError: (error) => {
+          const originalError = error.extensions?.originalError as Error;
+
+          if (!originalError) {
+            return {
+              message: error.message,
+              code: error.extensions?.code,
+            };
+          }
+          return {
+            message: originalError.message,
+            code: error.extensions?.code,
+          };
+        },
       }),
       inject: [ConfigService],
     }),

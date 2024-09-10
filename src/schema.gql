@@ -19,12 +19,14 @@ type User {
 type Query {
   users: [User!]!
   user(id: String!): User!
+  signIn(username: String!, password: String!): String!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
+  signUp(userToRegister: CreateUserInput!): String!
 }
 
 input CreateUserInput {

@@ -11,4 +11,5 @@ export const validationSchema = Joi.object({
   DATABASE_USERNAME: Joi.string().required(),
   DATABASE_PASSWORD: Joi.string().required(),
   GRAPHQL_PLAYGROUND: Joi.boolean().default(true),
+  SECRET: Joi.string().required(),
 });
