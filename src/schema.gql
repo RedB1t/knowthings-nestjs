@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  """unique identifier of user"""
+  _id: String!
+
+  """unique username for the login"""
+  username: String!
+
+  """password for the login"""
+  password: String!
+
+  """unique email of the user"""
+  email: String!
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+}
+
+input CreateUserInput {
+  """unique username for the login"""
+  username: String!
+
+  """password for the login"""
+  password: String!
+
+  """unique email of the user"""
+  email: String!
+}
+
+input UpdateUserInput {
+  """unique username for the login"""
+  username: String
+
+  """password for the login"""
+  password: String
+
+  """unique email of the user"""
+  email: String
+  _id: String!
+}
