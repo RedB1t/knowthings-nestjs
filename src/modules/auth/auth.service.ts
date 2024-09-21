@@ -1,11 +1,9 @@
 import {BadRequestException, Injectable, UnauthorizedException} from '@nestjs/common';
 import {JwtService} from "@nestjs/jwt";
-import {compare, hash} from "bcrypt";
+import {compare} from "bcrypt";
 
 import {UsersService} from "@modules/users/users.service";
 import {CreateUserInput} from "@modules/users/dto/create-user.input";
-
-const saltRounds = 10;
 
 @Injectable()
 export class AuthService {
@@ -33,8 +31,6 @@ export class AuthService {
       throw new BadRequestException('Email already exists');
     }
 
-
-    userToRegister.password = await hash(userToRegister.password, saltRounds);
     const user = await this.usersService.create(userToRegister);
 
     const payload = { sub: user._id, username: user.username, email: user.email };

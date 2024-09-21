@@ -9,6 +9,7 @@ import databaseConfig from "./config/database.config";
 import {validationSchema} from "./config/schema.config";
 import appConfig from "@core/config/app.config";
 import {JwtModule} from "@nestjs/jwt";
+import { ApolloServerPluginLandingPageGraphQLPlaygroundOptions } from '@apollo/server-plugin-landing-page-graphql-playground';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import {JwtModule} from "@nestjs/jwt";
       imports: [ConfigModule],
       driver: ApolloDriver,
       useFactory: (configService: ConfigService) => ({
-        playground: configService.get<boolean>('graphql.playground'),
+        playground: configService.get<boolean | ApolloServerPluginLandingPageGraphQLPlaygroundOptions>('graphql.playground'),
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         formatError: (error) => {
           const originalError = error.extensions?.originalError as Error;
@@ -50,6 +51,7 @@ import {JwtModule} from "@nestjs/jwt";
             code: error.extensions?.code,
           };
         },
+        context: ({ req, res }) => ({req, res}),
       }),
       inject: [ConfigService],
     }),
